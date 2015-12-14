@@ -10,4 +10,6 @@
 
 (deftest basics
   (testing "connection"
-    (is (not (nil? (get-test-connection!))))))
+    (let [conn (get-test-connection!)]
+      (is (not (nil? conn)))
+      (is (= [:jdbc-conn] (keys conn))))))
