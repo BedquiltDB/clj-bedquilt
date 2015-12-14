@@ -17,14 +17,15 @@
 
   (testing "with no collections"
     (let [spec (get-test-connection)
+          _ (reset-db! spec)
           collections (bq/list-collections spec)]
-      (reset-db! spec)
       (is (empty? collections))))
 
   (testing "after creating two collections"
     (let [spec (get-test-connection)]
-      (reset-db! spec)
-      (bq/create-collection spec "coll_one")
-      (bq/create-collection spec "coll_two")
-      (is (= '("coll_one" "coll_two")
-             (bq/list-collections spec))))))
+      (do
+        (reset-db! spec)
+        (is (= true (bq/create-collection spec "coll_one")))
+        (is (= true (bq/create-collection spec "coll_two")))
+        (is (= '("coll_one" "coll_two")
+               (bq/list-collections spec)))))))
