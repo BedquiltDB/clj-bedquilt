@@ -7,7 +7,7 @@
   (j/get-connection (assoc spec :subprotocol "postgresql")))
 
 
-(defn get-connection [config]
+(defn get-connection! [config]
   (let [host (or (:host config) "127.0.0.1")
         port (or (:port config) "5432")
         db   (or (:db   config) "")
