@@ -3,17 +3,32 @@
 
 
 
-(defn- build-jdbc-connection [spec]
-  (j/get-connection (assoc spec :subprotocol "postgresql")))
+(defn build-db-spec [spec]
+  (assoc spec
+         :subprotocol "postgresql"
+         :classname "org.postgresql.Driver"))
 
+(defn- query [spec query-vec]
+  (j/query spec query-vec))
 
-(defn get-connection! [config]
-  (let [host (or (:host config) "127.0.0.1")
-        port (or (:port config) "5432")
-        db   (or (:db   config) "")
-        subname (str "//" host ":" port "/" db)
-        spec (-> config
-                 (dissoc :host :port :db)
-                 (assoc :subname subname))
-        jdbc-conn (build-jdbc-connection spec)]
-    {:jdbc-conn jdbc-conn}))
+(defn list-collections [spec]
+  (map :bq_result
+       (query spec ["select bq_list_collections() as bq_result;"])))
+
+(defn create-collection [spec collection-name]
+  (first
+   (map :bq_result
+        (query spec ["select bq_create_collection(?) as bq_result"
+                     collection-name]))))
+
+(defn delete-collection [spec collection-name]
+  (first
+   (map :bq_result
+        (query spec ["select bq_delete_collection(?) as bq_result"
+                     collection-name]))))
+
+(defn collection-exists [spec collection-name]
+  (first
+   (map :bq_result
+        (query spec ["select bq_collection_exists(?) as bq_result"
+                     collection-name]))))

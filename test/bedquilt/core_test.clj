@@ -1,7 +1,7 @@
 (ns bedquilt.core-test
   (:require [clojure.test :refer :all]
             [bedquilt.core :as bq]
-            [bedquilt.test-utils :refer [get-test-connection!]]))
+            [bedquilt.test-utils :refer [get-test-connection]]))
 
 (deftest a-test
   (testing "FIXME, I fail."
@@ -10,6 +10,5 @@
 
 (deftest basics
   (testing "connection"
-    (let [conn (get-test-connection!)]
-      (is (not (nil? conn)))
-      (is (= [:jdbc-conn] (keys conn))))))
+    (let [conn (get-test-connection)]
+      (is (not (nil? conn))))))

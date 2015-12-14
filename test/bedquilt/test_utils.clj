@@ -3,7 +3,7 @@
              [bedquilt.core :as bq]))
 
 (def test-config
-  {:db "bedquilt_test"})
+  {:dbname "bedquilt_test"})
 
-(defn get-test-connection! []
-  (bq/get-connection! test-config))
+(defn get-test-connection []
+  (bq/build-db-spec test-config))
