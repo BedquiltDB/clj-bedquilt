@@ -1,5 +1,6 @@
 (ns bedquilt.core
-  (:require [clojure.java.jdbc :as j]))
+  (:require [clojure.java.jdbc :as j]
+            [cheshire.core :as json]))
 
 
 
@@ -32,3 +33,22 @@
    (map :bq_result
         (query spec ["select bq_collection_exists(?) as bq_result"
                      collection-name]))))
+
+(defn add-constraints [spec collection-name constraints]
+  (first
+   (map :bq_result
+        (query spec ["select bq_add_constraints(?, ?::json) as bq_result"
+                     collection-name
+                     (json/encode constraints)]))))
+
+(defn remove-constraints [spec collection-name constraints]
+  (first
+   (map :bq_result
+        (query spec ["select bq_remove_constraints(?, ?::json) as bq_result"
+                     collection-name
+                     (json/encode constraints)]))))
+
+(defn list-constraints [spec collection-name]
+   (map :bq_result
+        (query spec ["select bq_list_constraints(?) as bq_result"
+                     collection-name])))
