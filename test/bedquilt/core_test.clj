@@ -81,4 +81,10 @@
                   (set))))
       (is (= '("03" "02")
              (->> (bq/find db "people" {} {:skip 1 :sort [{:age -1}]})
-                  (map :_id)))))))
+                  (map :_id))))
+      (do
+        (is (= 1 (bq/remove-one-by-id db "people" "01")))
+        (is (= #{"02" "03"}
+               (->> (bq/find db "people" {})
+                    (map :_id)
+                    (set))))))))
