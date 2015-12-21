@@ -64,6 +64,8 @@
 ;; TODO: various arities
 ;; Query Ops
 (defn find
+  ([spec collection-name]
+   (find spec collection-name {} {}))
   ([spec collection-name query-doc]
    (find spec collection-name query-doc {}))
   ([spec collection-name query-doc {:keys [skip limit sort] :as options}]
@@ -90,11 +92,15 @@
                      collection-name
                      doc-id]))))
 
-(defn count [spec collection-name]
-  (first
-   (map :bq_result
-        (query spec ["select bq_count(?) as bq_result"
-                     collection-name]))))
+(defn count
+  ([spec collection-name]
+   (count spec collection-name {}))
+  ([spec collection-name query-doc]
+   (first
+    (map :bq_result
+         (query spec ["select bq_count(?, ?::json) as bq_result"
+                      collection-name
+                      (json/encode query-doc)])))))
 
 (defn distinct [spec collection-name]
   (map :bq_result
