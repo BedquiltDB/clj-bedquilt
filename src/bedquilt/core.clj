@@ -1,9 +1,8 @@
 (ns bedquilt.core
   (:require [clojure.java.jdbc :as j]
-            [cheshire.core :as json])
+            [cheshire.core :as json]
+            [bedquilt.utils :as utils])
   (:refer-clojure :exclude [find count remove distinct]))
-
-
 
 (defn build-db-spec [spec]
   (assoc spec
