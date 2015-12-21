@@ -22,8 +22,8 @@
       (reset-db! spec)
       (is (= true (bq/create-collection spec "coll_one")))
       (is (= true (bq/create-collection spec "coll_two")))
-      (is (= '("coll_one" "coll_two")
-             (bq/list-collections spec)))))
+      (is (= (set '("coll_one" "coll_two"))
+             (set (bq/list-collections spec))))))
 
   (testing "create two collections, delete one"
     (do
