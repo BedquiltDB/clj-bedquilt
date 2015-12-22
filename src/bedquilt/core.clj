@@ -4,7 +4,11 @@
             [bedquilt.utils :as utils])
   (:refer-clojure :exclude [find count remove distinct]))
 
-(defn build-db-spec [spec]
+(defn build-db-spec
+  "Build a connection spec, same as a clojure.java.jdbc spec.
+  This function will add the appropriate PostgreSQL bits to the supplied
+  spec map."
+  [spec]
   (assoc spec
          :subprotocol "postgresql"
          :classname "org.postgresql.Driver"))
@@ -12,51 +16,65 @@
 (defn- query [spec query-vec]
   (j/query spec query-vec))
 
-(defn list-collections [spec]
+(defn list-collections
+  "Get a list of collections on the server.
+  Returns a sequence of strings"
+  [spec]
   (map :bq_result
        (query spec ["select bq_list_collections() as bq_result;"])))
 
 ;; Collection Ops
-(defn create-collection [spec collection-name]
+(defn create-collection
+  "Create a collection if it does not already exist.
+  Returns boolean indicating whether the collection was created by this command."
+  [spec collection-name]
   (first
    (map :bq_result
         (query spec ["select bq_create_collection(?) as bq_result"
                      collection-name]))))
 
-(defn delete-collection [spec collection-name]
+(defn delete-collection
+  "Delete a collection if it exists.
+  Returns boolean indicating whether the collection was deleted by this command."
+  [spec collection-name]
   (first
    (map :bq_result
         (query spec ["select bq_delete_collection(?) as bq_result"
                      collection-name]))))
 
-(defn collection-exists [spec collection-name]
-  (first
-   (map :bq_result
-        (query spec ["select bq_collection_exists(?) as bq_result"
-                     collection-name]))))
-
-(defn collection-exists [spec collection-name]
+(defn collection-exists
+  "Check if a collection exists currently.
+  Returns boolean."
+  [spec collection-name]
   (first
    (map :bq_result
         (query spec ["select bq_collection_exists(?) as bq_result"
                      collection-name]))))
 
 ;; Constraints
-(defn add-constraints [spec collection-name constraints]
+(defn add-constraints
+  "Add a set of constraints to the collection.
+  Returns true if any constraints were added by this command"
+  [spec collection-name constraints]
   (first
    (map :bq_result
         (query spec ["select bq_add_constraints(?, ?::json) as bq_result"
                      collection-name
                      (json/encode constraints)]))))
 
-(defn remove-constraints [spec collection-name constraints]
+(defn remove-constraints
+  "Remove a set of constraints from the collection.
+  Returns true if any constraints were removed by this command"
+  [spec collection-name constraints]
   (first
    (map :bq_result
         (query spec ["select bq_remove_constraints(?, ?::json) as bq_result"
                      collection-name
                      (json/encode constraints)]))))
 
-(defn list-constraints [spec collection-name]
+(defn list-constraints
+  "Get a list of constraints on this collection."
+  [spec collection-name]
    (map :bq_result
         (query spec ["select bq_list_constraints(?) as bq_result"
                      collection-name])))
