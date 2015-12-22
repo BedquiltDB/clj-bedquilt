@@ -82,6 +82,7 @@
 ;; TODO: various arities
 ;; Query Ops
 (defn find
+  "Find documents from the collection matching a given query."
   ([spec collection-name]
    (find spec collection-name {} {}))
   ([spec collection-name query-doc]
@@ -96,14 +97,18 @@
                 limit
                 (if sort (json/encode sort) nil)]))))
 
-(defn find-one [spec collection-name query-doc]
+(defn find-one
+  "Find a single document from the collection matching a given query."
+  [spec collection-name query-doc]
   (first
    (map :bq_result
        (query spec ["select bq_find_one(?, ?::json) as bq_result"
                     collection-name
                     (json/encode query-doc)]))))
 
-(defn find-one-by-id [spec collection-name doc-id]
+(defn find-one-by-id
+  "Find a single document which has a _id equal to the supplied doc-id."
+  [spec collection-name doc-id]
   (first
    (map :bq_result
         (query spec ["select bq_find_one_by_id(?, ?) as bq_result"
@@ -111,6 +116,7 @@
                      doc-id]))))
 
 (defn count
+  "Get a count of documents in the collection."
   ([spec collection-name]
    (count spec collection-name {}))
   ([spec collection-name query-doc]
@@ -120,41 +126,56 @@
                       collection-name
                       (json/encode query-doc)])))))
 
-(defn distinct [spec collection-name]
+(defn distinct
+  "Get a sequence of unique values at the given dotted-path.
+  Example: (bq/distinct db \"people\" \"address.city\")"
+  [spec collection-name path]
   (map :bq_result
-       (query spec ["select bq_distinct(?) as bq_result"
-                    collection-name])))
+       (query spec ["select bq_distinct(?, ?) as bq_result"
+                    collection-name
+                    path])))
 
 ;; Write Ops
-(defn insert [spec collection-name doc]
+(defn insert
+  "Insert a document (map) into the collection"
+  [spec collection-name doc]
   (first
    (map :bq_result
         (query spec ["select bq_insert(?, ?::json) as bq_result"
                      collection-name
                      (json/encode doc)]))))
 
-(defn save [spec collection-name doc]
+(defn save
+  "Save a document (map) to the collection, overwriting any existing
+  doc with the same _id value."
+  [spec collection-name doc]
   (first
    (map :bq_result
         (query spec ["select bq_save(?, ?::json) as bq_result"
                      collection-name
                      (json/encode doc)]))))
 
-(defn remove [spec collection-name query-doc]
+(defn remove
+  "Remove documunts matching the supplied query-doc."
+  [spec collection-name query-doc]
   (first
    (map :bq_result
         (query spec ["select bq_remove(?, ?::json) as bq_result"
                      collection-name
                      (json/encode query-doc)]))))
 
-(defn remove-one [spec collection-name query-doc]
+(defn remove-one
+  "Remove a single document matching the supplied query-doc."
+  [spec collection-name query-doc]
   (first
    (map :bq_result
         (query spec ["select bq_remove_one(?, ?::json) as bq_result"
                      collection-name
                      (json/encode query-doc)]))))
 
-(defn remove-one-by-id [spec collection-name doc-id]
+(defn remove-one-by-id
+  "Remove a single document which has a _id value matching the supplied doc-id."
+  [spec collection-name doc-id]
   (first
    (map :bq_result
         (query spec ["select bq_remove_one_by_id(?, ?) as bq_result"
