@@ -63,14 +63,18 @@
   (testing "with three docs"
     (do
       (reset-db! db)
+      ;; insert
       (doseq [doc [{:_id "01" :name "Jane" :age 22}
                    {:_id "02" :name "John" :age 19}
                    {:_id "03" :name "Mike" :age 22}]]
-        (bq/insert db "people" doc))
+        (is (= (:_id doc)
+               (bq/insert db "people" doc))))
       (is (= 3)
           (count (bq/find db "people")))
+      ;; count
       (is (= 3)
           (bq/count db "people"))
+      ;; find
       (is (= #{"Jane" "John" "Mike"}
              (->> (bq/find db "people")
                   (map :name)
@@ -82,10 +86,14 @@
       (is (= '("03" "02")
              (->> (bq/find db "people" {} {:skip 1 :sort [{:age -1}]})
                   (map :_id))))
+      ;; find-one
       (is (= "02"
              (:_id (bq/find-one db "people" {:age 19}))))
       (is (= "02"
              (:_id (bq/find-one-by-id db "people" "02"))))
+      ;; distinct
+      (is (= '(22 19)
+             (bq/distinct db "people" "age")))
       (do
         (is (= 1 (bq/remove-one-by-id db "people" "01")))
         (is (= #{"02" "03"}

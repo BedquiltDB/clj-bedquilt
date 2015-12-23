@@ -131,11 +131,11 @@
 (defn distinct
   "Get a sequence of unique values at the given dotted-path.
   Example: (bq/distinct db \"people\" \"address.city\")"
-  [spec collection-name path]
+  [spec collection-name dotted-path]
   (map :bq_result
        (query spec ["select bq_distinct(?, ?) as bq_result"
                     collection-name
-                    path])))
+                    dotted-path])))
 
 ;; Write Ops
 (defn insert

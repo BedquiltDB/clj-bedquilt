@@ -23,4 +23,5 @@
           value (.getValue pgobj)]
       (case type
         "json" (json/decode value true)
+        "jsonb" (json/decode value true)
         :else value))))
