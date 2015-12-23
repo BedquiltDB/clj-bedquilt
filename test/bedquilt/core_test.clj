@@ -94,9 +94,17 @@
       ;; distinct
       (is (= '(22 19)
              (bq/distinct db "people" "age")))
+      ;; save
+      (let [doc (bq/find-one-by-id db "people" "01")]
+        (is (= "01" (bq/save db "people" (assoc doc :age 44))))
+        (is (= 44 (:age (bq/find-one-by-id db "people" "01")))))
+      ;; remove
       (do
         (is (= 1 (bq/remove-one-by-id db "people" "01")))
         (is (= #{"02" "03"}
                (->> (bq/find db "people" {})
                     (map :_id)
-                    (set))))))))
+                    (set))))
+        (is (= 2
+               (bq/remove db "people" {})))
+        (is (= 0 (bq/count db "people")))))))
