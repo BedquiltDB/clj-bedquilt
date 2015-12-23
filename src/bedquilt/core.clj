@@ -98,7 +98,8 @@
                 (if sort (json/encode sort) nil)]))))
 
 (defn find-one
-  "Find a single document from the collection matching a given query."
+  "Find a single document from the collection matching a given query.
+  Returns a map, or nil if not found."
   [spec collection-name query-doc]
   (first
    (map :bq_result
@@ -107,7 +108,8 @@
                     (json/encode query-doc)]))))
 
 (defn find-one-by-id
-  "Find a single document which has a _id equal to the supplied doc-id."
+  "Find a single document which has a _id equal to the supplied doc-id.
+  Returns a map, or nil if not found."
   [spec collection-name doc-id]
   (first
    (map :bq_result
