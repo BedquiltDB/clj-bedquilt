@@ -13,6 +13,15 @@
          :subprotocol "postgresql"
          :classname "org.postgresql.Driver"))
 
+(defmacro with-connection
+  "Evaluates body expressions in the context of a single db connection.
+  Example:
+    (bq/with-connection [conn spec]
+      (bq/insert conn \"things\" {:a 1})
+      (bq/insert conn \"things\" {:a 2}))"
+  [binding & body]
+  `(j/with-db-connection ~binding ~@body))
+
 (defn- query [spec query-vec]
   (j/query spec query-vec))
 

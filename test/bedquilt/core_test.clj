@@ -52,6 +52,18 @@
       (is (= '()
              (bq/list-constraints db "one"))))))
 
+(deftest with-connection
+
+  (testing "with-connection macro"
+    (do
+      (reset-db! db)
+      (is (= 3
+             (bq/with-connection [conn db]
+               (bq/insert conn "things" {:a 1})
+               (bq/insert conn "things" {:a 2})
+               (bq/insert conn "things" {:a 3})
+               (bq/count conn "things")))))))
+
 (deftest insert-and-find
 
   (testing "with no docs"
