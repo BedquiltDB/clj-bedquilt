@@ -21,6 +21,10 @@ A Clojure client for [BedquiltDB](http://bedquiltdb.github.io)
 (bq/find spec "users" {:city "Edinburgh"})
 ```
 
+## Documentation
+
+http://bedquiltdb.github.io/clj-bedquilt-docs/
+
 
 ## License
 
