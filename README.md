@@ -1,10 +1,26 @@
 # bedquilt
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure client for [BedquiltDB](http://bedquiltdb.github.io)
 
 ## Usage
 
-FIXME
+```clojure
+
+;; in a repl
+
+(require '[bedquilt.core :as bq]')
+
+(def spec (bq/make-db-spec {:subname "//localhost/bedquilt_test"}))
+
+(bq/create-collection spec "users")
+
+(bq/insert spec "users" {:name "Sarah Lyons"
+                         :age  24
+                         :city "Edinburgh"})
+
+(bq/find spec "users" {:city "Edinburgh"})
+```
+
 
 ## License
 
