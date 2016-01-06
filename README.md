@@ -8,7 +8,7 @@ A Clojure client for [BedquiltDB](http://bedquiltdb.github.io)
 
 ;; in a repl
 
-(require '[bedquilt.core :as bq]')
+(require '[bedquilt.core :as bq])
 
 (def spec (bq/make-db-spec {:subname "//localhost/bedquilt_test"}))
 
