@@ -6,7 +6,7 @@
   {:subname "//localhost/bedquilt_test"})
 
 (defn get-test-connection []
-  (bq/build-db-spec test-config))
+  (bq/make-db-spec test-config))
 
 (defn reset-db! [spec]
   (let [collections (bq/list-collections spec)]

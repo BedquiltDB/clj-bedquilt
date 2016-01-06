@@ -4,10 +4,15 @@
             [bedquilt.utils :as utils])
   (:refer-clojure :exclude [find count remove distinct]))
 
-(defn build-db-spec
+(defn make-db-spec
   "Build a connection spec, same as a clojure.java.jdbc spec.
   This function will add the appropriate PostgreSQL bits to the supplied
-  spec map."
+  spec map.
+  See http://clojure.github.io/java.jdbc/#clojure.java.jdbc/get-connection.
+  Example:
+    (def spec (bq/make-db-spec {:subname \"//localhost/some_db\"
+                                :user \"a_username\"
+                                :password \"a_bad_password\"}))"
   [spec]
   (assoc spec
          :subprotocol "postgresql"
