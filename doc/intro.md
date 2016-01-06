@@ -1,3 +1,4 @@
-# Introduction to bedquilt
+# Introduction to clj-bedquilt
 
-TODO: write [great documentation](http://jacobian.org/writing/what-to-write/)
+`clj-bedquilt` is the clojure client library for
+[BedquiltDB](http://bedquiltdb.github.io).
