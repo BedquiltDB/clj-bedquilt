@@ -2,16 +2,7 @@
 
 A Clojure client for [BedquiltDB](http://bedquiltdb.github.io)
 
-
-## Installation
-
 [![Clojars Project](https://img.shields.io/clojars/v/bedquilt.svg)](https://clojars.org/bedquilt)
-
-Add the following to `:dependencies` in `project.clj`:
-
-```
-[bedquilt "1.0.0"]
-```
 
 
 ## Usage
