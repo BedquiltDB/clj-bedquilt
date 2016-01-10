@@ -11,7 +11,7 @@
 Add the following to `:dependencies` in `project.clj`:
 
 ```
-[bedquilt "1.0.0"]
+[bedquilt "2.0.0"]
 ```
 
 
