@@ -56,7 +56,7 @@
         (query spec ["select bq_delete_collection(?) as bq_result"
                      collection-name]))))
 
-(defn collection-exists
+(defn collection-exists?
   "Check if a collection exists currently.
   Returns boolean."
   [spec collection-name]

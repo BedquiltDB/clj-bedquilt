@@ -21,6 +21,8 @@
     (do
       (reset-db! db)
       (is (= true (bq/create-collection db "coll_one")))
+      (is (= true (bq/collection-exists? db "coll_one")))
+      (is (= false (bq/collection-exists? db "coll_two")))
       (is (= true (bq/create-collection db "coll_two")))
       (is (= (set '("coll_one" "coll_two"))
              (set (bq/list-collections db))))))

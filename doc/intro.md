@@ -82,7 +82,7 @@ Check if a collection exists:
 
 ```clojure
 
-(bq/collection-exists spec "nope")
+(bq/collection-exists? spec "nope")
 ;; => false
 
 ```
