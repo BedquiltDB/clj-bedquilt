@@ -15,6 +15,10 @@ TODO
 - A PostgreSQL server with the `bedquilt` extension installed
 (http://bedquiltdb.readthedocs.org).
 
+## Further info about BedquiltDB
+
+See the [BedquiltDB Guide](http://bedquiltdb.readthedocs.org/en/latest/guide).
+
 
 ## Basic usage
 
