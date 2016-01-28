@@ -49,6 +49,10 @@ Make a db spec, with which to connect to the PostgreSQL instance with
 
 ```
 
+This spec is really just a JDBC connection spec, the same as would be used with
+[clojure.java.jdbc](https://github.com/clojure/java.jdbc). The `make-db-spec`
+function just ensures the spec has the appropriate PostgreSQL-specific bits set.
+
 Get a list of collections on the server:
 
 ```clojure
@@ -205,3 +209,12 @@ Remove documents from a collection:
 ;; => 1
 
 ```
+
+
+## Connection Pooling
+
+Because the `spec` parameter to the various `bedquilt.core` functions is just a
+jdbc connection spec, you can use the usual jdbc connection pooling methods with
+BedquiltDB. (Note, this use case is not currently covered by automated tests.)
+
+See [JDBC Connection Pooling on clojure-doc.org](http://clojure-doc.org/articles/ecosystem/java_jdbc/connection_pooling.html).
