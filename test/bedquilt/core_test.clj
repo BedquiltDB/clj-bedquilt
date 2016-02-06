@@ -103,8 +103,22 @@
       ;; find-one
       (is (= "02"
              (:_id (bq/find-one db "people" {:age 19}))))
+      (is (= nil
+             (:_id (bq/find-one db "people" {:age 1111}))))
+      ;; find-one-by-id
       (is (= "02"
              (:_id (bq/find-one-by-id db "people" "02"))))
+      (is (= nil
+             (:_id (bq/find-one-by-id db "people" "nope"))))
+      ;; find-many-by-ids
+      (is (= #{"02" "03"}
+             (->> (bq/find-many-by-ids db "people" ["02" "03"])
+                  (map :_id)
+                  (set))))
+      (is (= #{}
+             (->> (bq/find-many-by-ids db "people" [])
+                  (map :_id)
+                  (set))))
       ;; distinct
       (is (= '(22 19)
              (bq/distinct db "people" "age")))

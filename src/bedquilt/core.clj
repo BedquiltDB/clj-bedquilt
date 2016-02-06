@@ -131,6 +131,15 @@
                      collection-name
                      doc-id]))))
 
+(defn find-many-by-ids
+  "Find documents which have _id in the supplied sequence of doc-ids.
+  Returns a potentially empty sequence of docs."
+  [spec collection-name doc-ids]
+  (map :bq_result
+       (query spec ["select bq_find_many_by_ids(?, ?::jsonb) as bq_result"
+                    collection-name
+                    (json/encode doc-ids)])))
+
 (defn count
   "Get a count of documents in the collection."
   ([spec collection-name]
