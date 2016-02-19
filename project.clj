@@ -1,4 +1,4 @@
-(defproject bedquilt "2.0.0"
+(defproject bedquilt "2.1.0"
   :description "Clojure driver for BedquiltDB"
   :url "http://github.com/BedquiltDB/clj-bedquilt"
   :license {:name "MIT"
