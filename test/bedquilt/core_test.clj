@@ -80,7 +80,7 @@
       ;; insert
       (doseq [doc [{:_id "01" :name "Jane" :age 22}
                    {:_id "02" :name "John" :age 19}
-                   {:_id "03" :name "Mike" :age 22}]]
+                   {:_id "03" :name "Mike O'Reilly" :age 22}]]
         (is (= (:_id doc)
                (bq/insert db "people" doc))))
       (is (= 3)
@@ -89,7 +89,7 @@
       (is (= 3)
           (bq/count db "people"))
       ;; find
-      (is (= #{"Jane" "John" "Mike"}
+      (is (= #{"Jane" "John" "Mike O'Reilly"}
              (->> (bq/find db "people")
                   (map :name)
                   (set))))
@@ -107,6 +107,8 @@
              (->> (bq/find-one db "people" {:name "Jane"}))))
       (is (= nil
              (:_id (bq/find-one db "people" {:age 1111}))))
+      (is (= "03"
+             (:_id (bq/find-one db "people" {:name "Mike O'Reilly"}))))
       ;; find-one-by-id
       (is (= "02"
              (:_id (bq/find-one-by-id db "people" "02"))))
