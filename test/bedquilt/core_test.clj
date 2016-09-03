@@ -103,6 +103,12 @@
       (is (= '("03" "02")
              (->> (bq/find db "people" {} {:skip 1 :sort [{:age -1}]})
                   (map :_id))))
+      (is (= '("01" "02" "03")
+             (->> (bq/find db "people" {} {:sort [{:$created 1}]})
+                  (map :_id))))
+      (is (= '("03" "02" "01")
+             (->> (bq/find db "people" {} {:sort [{:$created -1}]})
+                  (map :_id))))
 
       ;; find-one
       (is (= "02"
