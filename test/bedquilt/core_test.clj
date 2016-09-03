@@ -109,6 +109,9 @@
              (:_id (bq/find-one db "people" {:age 1111}))))
       (is (= "03"
              (:_id (bq/find-one db "people" {:name "Mike O'Reilly"}))))
+      ;; find-one with advanced query
+      (is (= "02"
+             (:_id (bq/find-one db "people" {:age {:$lt 20}}))))
       ;; find-one with skip and sort
       (is (= "02"
              (:_id (bq/find-one db "people" {} {:sort [{:_id 1}], :skip 1}))))
