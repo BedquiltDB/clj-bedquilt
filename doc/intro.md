@@ -131,6 +131,10 @@ Find documents in a collection:
 (bq/find-one spec "users" {:address {:city "Edinburgh"}})
 ;; => {:_id "242", ...}
 
+(bq/find-one spec "users" {:address {:$in ["Edinburgh" "Glasgow"]}}
+                          {:sort [{:$updated -1}]})
+;; => {:_id "222", ...}
+
 (bq/find-one-by-id spec "users" "462")
 ;; => {:_id "462", ...}
 
