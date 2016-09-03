@@ -114,12 +114,19 @@
 (defn find-one
   "Find a single document from the collection matching a given query.
   Returns a map, or nil if not found."
-  [spec collection-name query-doc]
-  (first
-   (map :bq_result
-       (query spec ["select bq_find_one(?, ?::jsonb) as bq_result"
-                    collection-name
-                    (json/encode query-doc)]))))
+  ([spec collection-name]
+   (find-one spec collection-name {} {}))
+  ([spec collection-name query-doc]
+   (find-one spec collection-name query-doc {}))
+  ([spec collection-name query-doc {:keys [skip sort] :as options}]
+   (first
+    (map :bq_result
+         (query spec
+                ["select bq_find_one(?, ?::jsonb, ?::int, ?::jsonb) as bq_result"
+                 collection-name
+                 (json/encode query-doc)
+                 (or skip 0)
+                 (if sort (json/encode sort) nil)])))))
 
 (defn find-one-by-id
   "Find a single document which has a _id equal to the supplied doc-id.
