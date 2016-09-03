@@ -72,7 +72,7 @@
   [spec collection-name constraints]
   (first
    (map :bq_result
-        (query spec ["select bq_add_constraints(?, ?::json) as bq_result"
+        (query spec ["select bq_add_constraints(?, ?::jsonb) as bq_result"
                      collection-name
                      (json/encode constraints)]))))
 
@@ -82,7 +82,7 @@
   [spec collection-name constraints]
   (first
    (map :bq_result
-        (query spec ["select bq_remove_constraints(?, ?::json) as bq_result"
+        (query spec ["select bq_remove_constraints(?, ?::jsonb) as bq_result"
                      collection-name
                      (json/encode constraints)]))))
 
@@ -104,7 +104,7 @@
   ([spec collection-name query-doc {:keys [skip limit sort] :as options}]
    (map :bq_result
         (query spec
-               ["select bq_find(?, ?::json, ?::int, ?::int, ?::json) as bq_result"
+               ["select bq_find(?, ?::jsonb, ?::int, ?::int, ?::jsonb) as bq_result"
                 collection-name
                 (json/encode query-doc)
                 (or skip 0)
@@ -117,7 +117,7 @@
   [spec collection-name query-doc]
   (first
    (map :bq_result
-       (query spec ["select bq_find_one(?, ?::json) as bq_result"
+       (query spec ["select bq_find_one(?, ?::jsonb) as bq_result"
                     collection-name
                     (json/encode query-doc)]))))
 
@@ -147,7 +147,7 @@
   ([spec collection-name query-doc]
    (first
     (map :bq_result
-         (query spec ["select bq_count(?, ?::json) as bq_result"
+         (query spec ["select bq_count(?, ?::jsonb) as bq_result"
                       collection-name
                       (json/encode query-doc)])))))
 
@@ -166,7 +166,7 @@
   [spec collection-name doc]
   (first
    (map :bq_result
-        (query spec ["select bq_insert(?, ?::json) as bq_result"
+        (query spec ["select bq_insert(?, ?::jsonb) as bq_result"
                      collection-name
                      (json/encode doc)]))))
 
@@ -176,7 +176,7 @@
   [spec collection-name doc]
   (first
    (map :bq_result
-        (query spec ["select bq_save(?, ?::json) as bq_result"
+        (query spec ["select bq_save(?, ?::jsonb) as bq_result"
                      collection-name
                      (json/encode doc)]))))
 
@@ -185,7 +185,7 @@
   [spec collection-name query-doc]
   (first
    (map :bq_result
-        (query spec ["select bq_remove(?, ?::json) as bq_result"
+        (query spec ["select bq_remove(?, ?::jsonb) as bq_result"
                      collection-name
                      (json/encode query-doc)]))))
 
@@ -194,7 +194,7 @@
   [spec collection-name query-doc]
   (first
    (map :bq_result
-        (query spec ["select bq_remove_one(?, ?::json) as bq_result"
+        (query spec ["select bq_remove_one(?, ?::jsonb) as bq_result"
                      collection-name
                      (json/encode query-doc)]))))
 
