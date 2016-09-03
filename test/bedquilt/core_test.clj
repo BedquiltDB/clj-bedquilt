@@ -77,6 +77,7 @@
   (testing "with three docs"
     (do
       (reset-db! db)
+
       ;; insert
       (doseq [doc [{:_id "01" :name "Jane" :age 22}
                    {:_id "02" :name "John" :age 19}
@@ -85,9 +86,11 @@
                (bq/insert db "people" doc))))
       (is (= 3)
           (count (bq/find db "people")))
+
       ;; count
       (is (= 3)
           (bq/count db "people"))
+
       ;; find
       (is (= #{"Jane" "John" "Mike O'Reilly"}
              (->> (bq/find db "people")
@@ -100,6 +103,7 @@
       (is (= '("03" "02")
              (->> (bq/find db "people" {} {:skip 1 :sort [{:age -1}]})
                   (map :_id))))
+
       ;; find-one
       (is (= "02"
              (:_id (bq/find-one db "people" {:age 19}))))
@@ -109,14 +113,17 @@
              (:_id (bq/find-one db "people" {:age 1111}))))
       (is (= "03"
              (:_id (bq/find-one db "people" {:name "Mike O'Reilly"}))))
+
       ;; find-one with advanced query
       (is (= "02"
              (:_id (bq/find-one db "people" {:age {:$lt 20}}))))
+
       ;; find-one with skip and sort
       (is (= "02"
              (:_id (bq/find-one db "people" {} {:sort [{:_id 1}], :skip 1}))))
       (is (= "01"
              (:_id (bq/find-one db "people" {} {:sort [{:_id 1}]}))))
+
       ;; find-one-by-id
       (is (= "02"
              (:_id (bq/find-one-by-id db "people" "02"))))
@@ -124,6 +131,7 @@
              (->> (bq/find-one-by-id db "people" "01"))))
       (is (= nil
              (:_id (bq/find-one-by-id db "people" "nope"))))
+
       ;; find-many-by-ids
       (is (= #{"02" "03"}
              (->> (bq/find-many-by-ids db "people" ["02" "03"])
@@ -135,13 +143,16 @@
                   (set))))
       (is (= '({:_id "01" :name "Jane" :age 22})
              (->> (bq/find-many-by-ids db "people" ["01"]))))
+
       ;; distinct
       (is (= '(22 19)
              (bq/distinct db "people" "age")))
+
       ;; save
       (let [doc (bq/find-one-by-id db "people" "01")]
         (is (= "01" (bq/save db "people" (assoc doc :age 44))))
         (is (= 44 (:age (bq/find-one-by-id db "people" "01")))))
+
       ;; remove
       (do
         (is (= 1 (bq/remove-one-by-id db "people" "01")))
