@@ -4,6 +4,7 @@ A Clojure client for [BedquiltDB](http://bedquiltdb.github.io)
 
 [![Clojars Project](https://img.shields.io/clojars/v/bedquilt.svg)](https://clojars.org/bedquilt)
 
+[![CircleCI](https://circleci.com/gh/BedquiltDB/clj-bedquilt.svg?style=svg)](https://circleci.com/gh/BedquiltDB/clj-bedquilt)
 
 ## Usage
 
