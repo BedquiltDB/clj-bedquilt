@@ -212,6 +212,9 @@ Remove documents from a collection:
 (bq/remove-one-by-id spec "users" "462")
 ;; => 1
 
+(bq/remove-many-by-ids spec "users" ["one", "four", "nine"])
+;; => 3
+
 ```
 
 
