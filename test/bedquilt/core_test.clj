@@ -166,6 +166,11 @@
                (->> (bq/find db "people" {})
                     (map :_id)
                     (set))))
-        (is (= 2
+        (is (= 1 (bq/remove-many-by-ids db "people" ["02", "07"])))
+        (is (= #{"03"}
+               (->> (bq/find db "people" {})
+                    (map :_id)
+                    (set))))
+        (is (= 1
                (bq/remove db "people" {})))
         (is (= 0 (bq/count db "people")))))))

@@ -213,3 +213,12 @@
         (query spec ["select bq_remove_one_by_id(?, ?) as bq_result"
                      collection-name
                      doc-id]))))
+
+(defn remove-many-by-ids
+  "Remove many documents, by their _id fields"
+  [spec collection-name doc-ids]
+  (first
+   (map :bq_result
+        (query spec ["select bq_remove_many_by_ids(?, ?::jsonb) as bq_result"
+                     collection-name
+                     (json/encode doc-ids)]))))
