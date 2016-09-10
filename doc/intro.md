@@ -21,7 +21,7 @@ Add the following to `:dependencies` in `project.clj`:
 - A PostgreSQL server with the `bedquilt` extension installed
 (http://bedquiltdb.readthedocs.org).
 
-## Further info about BedquiltDB
+## Further BedquiltDB Documentation
 
 See the [BedquiltDB Guide](http://bedquiltdb.readthedocs.org/en/latest/guide).
 
